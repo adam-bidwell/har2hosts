@@ -1,4 +1,4 @@
-module kurtgeiger/har2hosts
+module adam-bidwell/har2hosts
 
 go 1.23.3
 
