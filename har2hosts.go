@@ -8,6 +8,7 @@ import (
     "sort"
     "strings"
     "bufio"
+    "io"
     "github.com/gdamore/tcell/v2"
 )
 
@@ -43,13 +44,17 @@ type DomainItem struct {
 }
 
 func parseHostsFile() (map[string]*DomainItem, error) {
-    domains := make(map[string]*DomainItem)
-    
     file, err := os.Open("/etc/hosts")
     if err != nil {
-        return domains, err
+        return nil, err
     }
     defer file.Close()
+
+    return parseHostsFileContent(file)
+}
+
+func parseHostsFileContent(file io.Reader) (map[string]*DomainItem, error) {
+    domains := make(map[string]*DomainItem)
 
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
